@@ -3,194 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accolink | Find your place to stay in Kasane</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <title>Accolink | Find your stay</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
-        :root {
-            --emerald: #043927;
-            --emerald-light: #065F46;
-            --bg: #F9F9F9;
-            --text: #1A1A1A;
-            --muted: #6B7280;
-        }
-
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); margin: 0; color: var(--text); overflow-x: hidden; }
-
-        /* Professional Header & Slogan */
-        header {
-            background: #FFF; padding: 40px 5% 30px 5%; text-align: center;
-            border-bottom: 1px solid #EEE; position: sticky; top: 0; z-index: 1000;
-        }
-
-        .logo-main { 
-            font-family: 'Playfair Display', serif; font-size: 2.4rem; 
-            letter-spacing: 10px; color: var(--emerald); text-decoration: none;
-            display: block; margin-bottom: 5px; text-transform: uppercase;
-        }
-
-        .slogan {
-            font-family: 'Montserrat', sans-serif; font-size: 0.75rem;
-            letter-spacing: 3px; color: var(--muted); text-transform: uppercase;
-            display: block; margin-bottom: 25px; font-weight: 400;
-        }
-
-        .search-wrapper { position: relative; max-width: 500px; margin: 0 auto; }
-        .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-        #propertySearch { 
-            width: 100%; padding: 15px 15px 15px 50px; border-radius: 50px;
-            border: 1px solid #DDD; background: #F8F9FA; outline: none; transition: 0.3s;
-            box-sizing: border-box; font-size: 0.9rem;
-        }
-        #propertySearch:focus { background: #FFF; border-color: var(--emerald); box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-
+        :root { --emerald: #2ecc71; --dark: #2c3e50; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; }
+        header { background: white; padding: 20px 5%; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo-main { font-size: 24px; font-weight: 800; color: var(--emerald); text-decoration: none; }
+        .search-wrapper { position: relative; max-width: 500px; margin: 20px auto 0; }
+        #propertySearch { width: 100%; padding: 15px 15px 15px 50px; border-radius: 50px; border: 1px solid #ddd; box-sizing: border-box; }
+        .search-wrapper i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; }
+        
         /* Listing Grid */
-        .container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 40px; padding: 40px 5%; max-width: 1400px; margin: 0 auto;
+        .container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            gap: 40px; padding: 40px 5%; max-width: 1400px; margin: 0 auto; 
         }
 
         /* Card Styling */
-        .card { background: #FFF; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: 0.4s; }
+        .card { background: #FFF; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
         .card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-
-        .swiper { width: 100%; height: 280px; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-
-        .card-content { padding: 25px; }
-        .stars { color: #D4AF37; font-size: 0.8rem; margin-bottom: 10px; }
-        h3 { margin: 0; font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--emerald); }
-        .loc { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; margin: 12px 0; }
-
-        .amenities-bar { display: flex; gap: 15px; margin: 20px 0; color: var(--emerald-light); font-size: 1.1rem; }
-
-        .price { font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; }
-        .price span { font-size: 0.8rem; color: var(--muted); font-weight: 400; }
-
-        /* Premium Buttons */
-        .btn-box { display: flex; gap: 12px; }
-        .btn {
-            flex: 1; text-align: center; text-decoration: none; padding: 15px 5px;
-            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 1px; border-radius: 2px; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        .swiper { width: 100%; height: 250px; }
+        .swiper img { width: 100%; height: 100%; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .price { font-size: 20px; font-weight: bold; color: var(--emerald); margin: 10px 0; }
+        .amenities { display: flex; gap: 10px; margin-bottom: 15px; color: #666; }
+        .book-btn { 
+            display: block; width: 100%; padding: 12px; background: var(--emerald); 
+            color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; 
         }
-        .btn-call { border: 1px solid var(--emerald); color: var(--emerald); }
-        .btn-wa { background: var(--emerald); color: #FFF; }
-        .btn:hover { opacity: 0.75; }
-
-        footer { padding: 80px 5%; text-align: center; border-top: 1px solid #EEE; background: #FFF; }
     </style>
 </head>
 <body>
 
 <header>
     <a href="#" class="logo-main">ACCOLINK</a>
-    <span class="slogan">Find your place to stay in Kasane</span>
     <div class="search-wrapper">
         <i class="fas fa-search"></i>
-        <input type="text" id="propertySearch" placeholder="Where do you want to stay?" onkeyup="filterNow()">
+        <input type="text" id="propertySearch" placeholder="Search by name or location...">
     </div>
 </header>
 
-<div id="container" id="mainGrid"></div>
-
-<footer>
-    <p style="letter-spacing: 5px; font-weight: 600; color: var(--emerald);">ACCOLINK.COM</p>
-    <p style="color: var(--muted); font-size: 0.8rem; margin: 15px 0;">Premium Booking Gateway • Kasane, Chobe</p>
-    <div style="display:flex; justify-content:center; gap:25px; margin-top:20px;">
-         <a href="https://wa.me/26776233996" style="color:var(--emerald); text-decoration:none; font-size:0.8rem; font-weight:600;">WHATSAPP</a>
-         <a href="mailto:accolink527@gmail.com" style="color:var(--emerald); text-decoration:none; font-size:0.8rem; font-weight:600;">EMAIL</a>
-    </div>
-</footer>
+<div id="mainGrid" class="container"></div>
 
 <script>
-    const CONFIG = {
-        URL: 'https://vmctxpfqlwqhcdwiqkpg.supabase.co',
-        KEY: 'sb_publishable_DKgc7fLhpguRjq_xac86hw_F7MzhEjm'
+const CONFIG = {
+    URL: 'https://vmctxpfqlwqhcdwiqkpg.supabase.co',
+    KEY: 'sb_publishable_DKgc7fLhpguRjq_xac86hw_F7Mzh_'
+};
+
+const _db = supabase.createClient(CONFIG.URL, CONFIG.KEY);
+
+async function logView(id, current) {
+    await _db.from('listings').update({ views_count: (current || 0) + 1 }).eq('id', id);
+}
+
+function getAmeIcon(name) {
+    const lib = {
+        wifi: 'fa-wifi', pool: 'fa-swimmer', netflix: 'fa-play-circle',
+        tv: 'fa-tv', security: 'fa-shield-alt', ac: 'fa-snowflake'
     };
-    const _db = Supabase.createClient(CONFIG.URL, CONFIG.KEY);
+    const icon = lib[name.toLowerCase().trim()];
+    return icon ? <i class="fas ${icon}"></i> : '';
+}
 
-    async function logView(id, current) {
-        await _db.from('listings').update({ views_count: (current || 0) + 1 }).eq('id', id);
+async function init() {
+    // 1. Fetch data from 'listings' table
+    const { data, error } = await _db.from('listings').select('*');
+    
+    if (error) {
+        console.error("Database Error:", error);
+        return;
     }
 
-    async function logClick(id, current) {
-        await _db.from('listings').update({ clicks_count: (current || 0) + 1 }).eq('id', id);
-    }
+    const grid = document.getElementById('mainGrid');
+    if (!grid) return;
 
-    function getAmeIcon(name) {
-        const lib = {
-            wifi: 'fa-wifi', pool: 'fa-swimmer', netflix: 'fa-play-circle',
-            tv: 'fa-tv', security: 'fa-shield-alt', ac: 'fa-snowflake'
-        };
-        const icon = lib[name.toLowerCase().trim()];
-        return icon ? <i class="fas ${icon}"></i> : '';
-    }
+    // 2. Map data to HTML
+    grid.innerHTML = data.map(item => {
+        logView(item.id, item.views_count);
 
-    async function init() {
-        const { data, error } = await _db.from('listings').select('*');
-        if (error) return;
-        
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = data.map(item => {
-            logView(item.id, item.views_count);
+        let imagelist = [];
+        try {
+            // Fix: Parse the jsonb images list
+            imagelist = Array.isArray(item.images) ? item.images : JSON.parse(item.images || '[]');
+        } catch(e) { imagelist = []; }
 
-            // Bug Prevention for Images
-            let imageList = [];
-            try {
-                imageList = Array.isArray(item.images) ? item.images : JSON.parse(item.images || "[]");
-            } catch(e) { imageList = []; }
-
-            return `
+        // Added 'return' keyword below - the fix for the blank screen!
+        return `
             <div class="card" data-search="${item.name} ${item.location}">
-                <div class="swiper mySwiper">
+                <div class="swiper">
                     <div class="swiper-wrapper">
-                        ${imageList.length > 0 ? imageList.map(src => <div class="swiper-slide"><img src="${src}"></div>).join('') : '<div class="swiper-slide"><img src="https://via.placeholder.com/400x300?text=No+Photos"></div>'}
+                        ${imagelist.map(img => <div class="swiper-slide"><img src="${img}"></div>).join('')}
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
                 <div class="card-content">
-                    <div class="stars">${'★'.repeat(Math.floor(item.stars || 5))}</div>
                     <h3>${item.name}</h3>
-                    <div class="loc"><i class="fas fa-map-marker-alt" style="font-size:0.7rem"></i> ${item.location}</div>
-                    
-                    <div class="amenities-bar">
-                        ${item.amenities ? item.amenities.map(a => getAmeIcon(a)).join('') : ''}
+                    <p><i class="fas fa-map-marker-alt"></i> ${item.location}</p>
+                    <div class="amenities">
+                        ${(item.amenities || []).map(a => getAmeIcon(a)).join('')}
                     </div>
-
-                    <div class="price">P${item.price} <span>/ night</span></div>
-
-                    <div class="btn-box">
-                        <a href="tel:${item.phone}" class="btn btn-call" onclick="logClick('${item.id}', ${item.clicks_count})">
-                            <i class="fas fa-phone-alt"></i> Call
-                        </a>
-                        <a href="https://wa.me/${item.whatsapp}?text=I am interested in ${item.name}" target="_blank" class="btn btn-wa" onclick="logClick('${item.id}', ${item.clicks_count})">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                    </div>
+                    <div class="price">P${item.price}<span>/night</span></div>
+                    <a href="https://wa.me/${item.phone}" target="_blank" class="book-btn">Book Now</a>
                 </div>
-            </div>`;
-        }).join('');
+            </div>
+        `;
+    }).join('');
 
-        new Swiper(".mySwiper", { pagination: { el: ".swiper-pagination", dynamicBullets: true }, loop: true });
-    }
+    // 3. Initialize Swiper for images
+    new Swiper('.swiper', {
+        loop: true,
+        pagination: { el: '.swiper-pagination', clickable: true },
+    });
+}
 
-    function filterNow() {
-        const val = document.getElementById('propertySearch').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.display = card.getAttribute('data-search').toLowerCase().includes(val) ? "block" : "none";
-        });
-    }
+// Search Filter
+document.getElementById('propertySearch')?.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+        const content = card.getAttribute('data-search').toLowerCase();
+        card.style.display = content.includes(term) ? 'block' : 'none';
+    });
+});
 
-    init();
+init();
 </script>
 
-    <script src="https://cdn.jsdelivr.net/npm
-/swiper@11/-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </body>
 </html>
